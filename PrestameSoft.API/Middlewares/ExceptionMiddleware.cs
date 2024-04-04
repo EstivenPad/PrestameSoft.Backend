@@ -55,6 +55,17 @@ namespace PrestameSoft.API.Middlewares
                     };
                     break;
 
+                case OutOfTimeException outOfTimeException:
+                    statusCode = HttpStatusCode.Forbidden;
+                    problem = new CustomValidationProblemDetails()
+                    {
+                        Title = outOfTimeException.Message,
+                        Status = (int)statusCode,
+                        Type = nameof(OutOfTimeException),
+                        Detail = outOfTimeException.InnerException?.Message
+                    };
+                    break;
+
                 default:
                     problem = new CustomValidationProblemDetails()
                     {

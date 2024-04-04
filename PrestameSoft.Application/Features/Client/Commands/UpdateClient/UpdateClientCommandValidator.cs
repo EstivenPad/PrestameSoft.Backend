@@ -44,10 +44,5 @@ namespace PrestameSoft.Application.Features.Client.Commands.UpdateClient
             var client = await _clientRepository.GetByIdAsync(id);
             return client != null;
         }
-
-        private Task<bool> ClientNameUnique(string identification, CancellationToken token)
-        {
-            return _clientRepository.IsClientUnique(identification);
-        }
     }
 }

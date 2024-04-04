@@ -25,7 +25,7 @@ namespace PrestameSoft.Application.Features.Payment.Commands.CreatePayment
                 .MustAsync(LoanMustExist).WithMessage("Loan doesn't exist");
 
             RuleFor(p => p.Fortnight)
-                .MustAsync(FortnightMustBeDifferentFromLast).WithMessage("A payment already exist for that fortnight");
+                .MustAsync(FortnightMustBeDifferentFromLast).WithMessage("The last payment was created for that fortnight");
 
             _loanRepository = loanRepository;
             _paymentRepository = paymentRepository;
@@ -34,6 +34,10 @@ namespace PrestameSoft.Application.Features.Payment.Commands.CreatePayment
         private async Task<bool> FortnightMustBeDifferentFromLast(bool fortnight, CancellationToken token)
         {
             var lastPayment = await _paymentRepository.GetLastPaymentAsync();
+
+            if (lastPayment is null)
+                return true;
+
             return lastPayment.Fortnight != fortnight;
         }
 

@@ -10,6 +10,7 @@ namespace PrestameSoft.Application.Features.Loan.Queries.GetAllLoans
 {
     public class LoanDto
     {
+        public int Id { get; set; }
         public double Amount { get; set; }
         public string Status { get; set; } = string.Empty;
         public int ClientId { get; set; }
