@@ -19,7 +19,7 @@ namespace PrestameSoft.Persistence.Repositories
             _context = context;
         }
 
-        public async Task CreateAsync(T entity)
+        public virtual async Task CreateAsync(T entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();

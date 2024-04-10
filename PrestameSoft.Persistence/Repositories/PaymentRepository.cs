@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PrestameSoft.Application.Constants;
 using PrestameSoft.Application.Contracts.Persistence;
 using PrestameSoft.Application.Exceptions;
 using PrestameSoft.Domain;
@@ -15,6 +16,23 @@ public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
 {
     public PaymentRepository(DataContext context) : base(context)
     {
+    }
+
+    public override async Task CreateAsync(Payment payment)
+    {
+        //Modification of the Capital Remaining over the payment's loan 
+        
+        var loan = await _context.Loans.FirstOrDefaultAsync(l => l.Id == payment.LoanId);
+        
+        var loanInterest = Math.Round((loan.CapitalRemaining * Percentages.InterestRate), 2);
+
+        if (payment.InterestDeposit < loanInterest)
+            loan.CapitalRemaining += (loanInterest - payment.InterestDeposit);
+
+        loan.CapitalRemaining -= payment.CapitalDeposit;
+
+        await _context.AddAsync(payment);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<Payment> GetLastPaymentAsync()

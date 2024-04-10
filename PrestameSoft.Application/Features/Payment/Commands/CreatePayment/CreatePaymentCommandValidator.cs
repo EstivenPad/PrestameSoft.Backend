@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using PrestameSoft.Application.Constants;
 using PrestameSoft.Application.Contracts.Persistence;
 using System;
 using System.Collections.Generic;
@@ -15,20 +16,31 @@ namespace PrestameSoft.Application.Features.Payment.Commands.CreatePayment
 
         public CreatePaymentCommandValidator(ILoanRepository loanRepository, IPaymentRepository paymentRepository)
         {
+            RuleFor(p => p.LoanId)
+                .MustAsync(LoanMustExist).WithMessage("Loan doesn't exist");
+
             RuleFor(p => p.CapitalDeposit)
                 .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater or equal to {ComparisonValue}");
 
             RuleFor(p => p.InterestDeposit)
-                .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater or equal to {ComparisonValue}");
-
-            RuleFor(p => p.LoanId)
-                .MustAsync(LoanMustExist).WithMessage("Loan doesn't exist");
+                .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater or equal to {ComparisonValue}")
+                .MustAsync(InterestDepositLessThanLoanInterest).WithMessage("Interest deposit can't be greater than loan's interest");
 
             RuleFor(p => p.Fortnight)
                 .MustAsync(FortnightMustBeDifferentFromLast).WithMessage("The last payment was created for that fortnight");
 
             _loanRepository = loanRepository;
             _paymentRepository = paymentRepository;
+        }
+
+        private async Task<bool> InterestDepositLessThanLoanInterest(CreatePaymentCommand payment, double interestDeposit, CancellationToken token)
+        {
+            var loan = await _loanRepository.GetByIdAsync(payment.LoanId);
+
+            if(loan is null)
+                return true;
+
+            return interestDeposit <= Math.Round(loan.CapitalRemaining * Percentages.InterestRate, 2);
         }
 
         private async Task<bool> FortnightMustBeDifferentFromLast(bool fortnight, CancellationToken token)

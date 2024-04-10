@@ -46,14 +46,27 @@ namespace PrestameSoft.Application.UnitTests.Mocks
 
             var mockRepository = new Mock<IClientRepository>();
 
-            mockRepository.Setup(r => r.GetAsync()).ReturnsAsync(clients);
-            
-            mockRepository.Setup(r => r.CreateAsync(It.IsAny<Client>()))
+            mockRepository.Setup(c => c.GetAsync()).ReturnsAsync(clients);
+
+            mockRepository.Setup(c => c.GetByIdAsync(It.IsAny<int>()))
+                .Returns((int id) =>
+                {
+                    var client = clients.FirstOrDefault(c => c.Id == id);
+                    return Task.FromResult<Client>(client);
+                });
+
+            mockRepository.Setup(c => c.CreateAsync(It.IsAny<Client>()))
                 .Returns((Client client) =>
                 {
                     clients.Add(client);
                     return Task.CompletedTask;
                 });
+
+            //mockRepository.Setup(c => c.UpdateAsync(It.IsAny<Client>()))
+            //    .Returns(() =>
+            //    {
+
+            //    });
 
             return mockRepository;
         }
