@@ -39,6 +39,7 @@ namespace PrestameSoft.Persistance.IntegrationTests
         [Fact]
         public async void Save_SetDateModified()
         {
+            //Arrange
             var client = new Client
             {
                 Id = 1,
@@ -49,9 +50,11 @@ namespace PrestameSoft.Persistance.IntegrationTests
                 Identification = "000-0000000-0"
             };
 
+            //Act
             await _dataContext.Clients.AddAsync(client);
             await _dataContext.SaveChangesAsync();
 
+            //Assert
             client.DateModified.ShouldNotBeNull();
         }
     }

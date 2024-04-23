@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PrestameSoft.Application\PrestameSoft.Application.csproj" />
+    <ProjectReference Include="..\PrestameSoft.Identity\PrestameSoft.Identity.csproj" />
     <ProjectReference Include="..\PrestameSoft.Infrastructure\PrestameSoft.Infrastructure.csproj" />
     <ProjectReference Include="..\PrestameSoft.Persistence\PrestameSoft.Persistence.csproj" />
   </ItemGroup>
