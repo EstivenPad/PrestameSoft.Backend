@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using PrestameSoft.Application.Features.Payment.Commands.CreatePayment;
-using PrestameSoft.Application.Features.Payment.Commands.UpdatePayment;
 using PrestameSoft.Application.Features.Payment.Queries.GetAllPayments;
 using PrestameSoft.Application.Features.Payment.Queries.GetPaymentDetail;
 using PrestameSoft.Domain;
@@ -19,7 +18,6 @@ namespace PrestameSoft.Application.MappingProfiles
             CreateMap<PaymentDto, Payment>().ReverseMap();
             CreateMap<Payment, PaymentDetailsDto>();
             CreateMap<CreatePaymentCommand, Payment>();
-            CreateMap<UpdatePaymentCommand, Payment>();
         }
     }
 }

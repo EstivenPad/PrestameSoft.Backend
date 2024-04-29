@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrestameSoft.Application.Constants
+namespace PrestameSoft.Application.Models.Identity
 {
-    public enum Status
+    public class RegistrationResponse
     {
-        Activo = 1,
-        Inactivo = 2
+        public string UserId { get; set; }
     }
 }

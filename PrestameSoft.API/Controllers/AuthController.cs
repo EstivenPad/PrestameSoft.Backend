@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PrestameSoft.Application.Contracts.Identity;
-using PrestameSoft.Application.Models;
+using PrestameSoft.Application.Models.Identity;
 
 namespace PrestameSoft.API.Controllers
 {

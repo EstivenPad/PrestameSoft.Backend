@@ -16,13 +16,24 @@ public class LoanRepository : GenericRepository<Loan>, ILoanRepository
     {
     }
 
-    public async Task<Loan> GetLoanWithDetails(int id)
+    public async Task<Loan> GetLoanWithDetails(int loanId)
     {
         var loanWithDetails = await _context.Loans
             .Include(l => l.Client).AsNoTracking()
             .Include(l => l.Payments).AsNoTracking()
-            .FirstOrDefaultAsync(l => l.Id == id);
+            .FirstOrDefaultAsync(l => l.Id == loanId);
 
         return loanWithDetails;
+    }
+
+    public async Task<bool> LoanHasAnyPayment(int loanId)
+    {
+        return await _context.Payments.AnyAsync(p => (p.LoanId == loanId)) == true;
+    }
+
+    public async Task ChangeLoanStatus(int loanId)
+    {
+        var loan = await _context.Loans.FirstOrDefaultAsync(l => l.Id == loanId);
+        //loan.Status = loan
     }
 }

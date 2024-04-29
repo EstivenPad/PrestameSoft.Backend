@@ -174,8 +174,8 @@ namespace PrestameSoft.Identity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Firstname", "Lastname", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3e0899b4-961c-4a67-90e8-53aedac5c370", 0, "6541d38a-0f81-42ea-9857-00345b0e5b3e", "admin@localhost.com", true, "System", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEHZZyJKH45H1MMzpfQHxC4Qgs1wXr/QW4xxHB4RiuIyuAmBhtbwI2Sog6vA89KbKDA==", null, false, "bc67507e-f0b0-48a5-98e4-64e5abbd186c", false, null },
-                    { "9cb7dbdd-ebbd-4501-9c2e-67e5cffc3d73", 0, "173dcd3e-8ff0-4d08-83f9-bbf472b4df18", "user@localhost.com", true, "System", "User", false, null, "USER@LOCALHOST.COM", "USER@LOCALHOST.COM", "AQAAAAIAAYagAAAAEFtIhw091PkvGKkExmnFCqhWz0OzXnjBjICFm0Eu6lG0zeBi5aSrnff8sP1QGF01Xw==", null, false, "5ed35793-a564-4627-8122-f33350c77bbe", false, null }
+                    { "3e0899b4-961c-4a67-90e8-53aedac5c370", 0, "4b2f9269-3b3c-46a0-908f-c5072558c30e", "admin@localhost.com", true, "System", "Admin", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEDu/jRQBQn7+P1a/h2AwK4Z2eAGyWoUtkpTuDu63F4KfQXgjFSFvsl2WR+uBASEkCw==", null, false, "97a1b370-d3ff-4b52-b11b-a466f0b08c22", false, "admin@localhost.com" },
+                    { "9cb7dbdd-ebbd-4501-9c2e-67e5cffc3d73", 0, "2dcc2620-6909-46a1-85b7-4698e1b6a31c", "user@localhost.com", true, "System", "User", false, null, "USER@LOCALHOST.COM", "USER@LOCALHOST.COM", "AQAAAAIAAYagAAAAEF7f1M6kCZSRinWZ5iuUNRC3VS+xdEVOAPNagk6oejDVX9hLeRaMwgMJvXw6WYIRtQ==", null, false, "29faa2aa-50be-46ec-b9cb-37d5bde1762c", false, "user@localhost.com" }
                 });
 
             migrationBuilder.InsertData(

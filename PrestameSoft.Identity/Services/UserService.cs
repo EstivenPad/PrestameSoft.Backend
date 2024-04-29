@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PrestameSoft.Application.Contracts.Identity;
-using PrestameSoft.Application.Models;
+using PrestameSoft.Application.Models.Identity;
 using PrestameSoft.Identity.Models;
 using System;
 using System.Collections.Generic;

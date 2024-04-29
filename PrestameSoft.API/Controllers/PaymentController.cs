@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PrestameSoft.Application.Features.Payment.Commands.CreatePayment;
 using PrestameSoft.Application.Features.Payment.Commands.DeletePayment;
 using PrestameSoft.Application.Features.Payment.Commands.InactivePayment;
-using PrestameSoft.Application.Features.Payment.Commands.UpdatePayment;
 using PrestameSoft.Application.Features.Payment.Queries.GetAllPayments;
 using PrestameSoft.Application.Features.Payment.Queries.GetPaymentDetail;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -51,24 +50,12 @@ namespace PrestameSoft.API.Controllers
             return CreatedAtAction(nameof(Get), new { Id = response });
         }
 
-        // PUT api/<PaymentController>/5
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult> Put(UpdatePaymentCommand command)
-        {
-            await _mediator.Send(command);
-            return NoContent();
-        }
-
-        // DELETE api/<PaymentController>/5
+        // INACTIVE api/<PaymentController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Inactive(int id)
         {
             await _mediator.Send(new InactivePaymentCommand { Id = id });
             return NoContent();

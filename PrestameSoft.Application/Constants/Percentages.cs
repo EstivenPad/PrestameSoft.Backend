@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PrestameSoft.Application.Constants
 {
-    public static class Percentages
+    public class Percentages
     {
-        public static float InterestRate { get; } = 0.1f;
+        public const float InterestRate = 0.1f;
     }
 }

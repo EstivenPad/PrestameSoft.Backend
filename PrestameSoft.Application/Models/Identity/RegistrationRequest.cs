@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrestameSoft.Application.Models
+namespace PrestameSoft.Application.Models.Identity
 {
     public class RegistrationRequest
     {
         [Required]
         public string FirstName { get; set; }
-        
+
         [Required]
         public string Lastname { get; set; }
 

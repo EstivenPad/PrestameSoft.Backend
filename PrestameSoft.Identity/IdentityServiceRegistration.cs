@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PrestameSoft.Application.Contracts.Identity;
-using PrestameSoft.Application.Models;
+using PrestameSoft.Application.Models.Identity;
 using PrestameSoft.Identity.DatabaseContext;
 using PrestameSoft.Identity.Models;
 using PrestameSoft.Identity.Services;

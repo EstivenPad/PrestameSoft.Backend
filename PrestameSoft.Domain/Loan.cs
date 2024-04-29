@@ -9,9 +9,15 @@ namespace PrestameSoft.Domain;
 
 public class Loan : BaseEntity
 {
+    public enum LoanStatus
+    {
+        Inactivo,
+        Activo
+    }
+
     public double Amount { get; set; }
     public double CapitalRemaining { get; set; }
-    public string Status { get; set; } = string.Empty;
+    public LoanStatus Status { get; set; } = LoanStatus.Activo;
 
     public int ClientId { get; set; }
     public Client? Client { get; set; }

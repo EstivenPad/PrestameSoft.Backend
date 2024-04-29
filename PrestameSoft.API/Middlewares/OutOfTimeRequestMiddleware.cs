@@ -38,10 +38,7 @@ namespace PrestameSoft.API.Middlewares
                 if (paymentDB is null)
                     throw new NotFoundException(nameof(paymentDB), paymentDeserialized.Id);
 
-                DateTime now = DateTime.Now;
-                DateTime paymentTime = paymentDB.DateCreated.Value;
-
-                TimeSpan timeDifference = now - paymentTime;
+                TimeSpan timeDifference = DateTime.Now - paymentDB.DateCreated.Value;
 
                 if(timeDifference.TotalMinutes <= 30)
                     await _next(httpContext);

@@ -24,8 +24,13 @@ namespace PrestameSoft.Application.Features.Payment.Commands.DeletePayment
             var paymentToDelete = await _paymentRepository.GetByIdAsync(request.Id);
 
             if (paymentToDelete is null)
-                throw new NotFoundException(nameof(Payment), request.Id); 
-            
+                throw new NotFoundException(nameof(Payment), request.Id);
+
+            var lastPayment = await _paymentRepository.GetLastPaymentAsync(paymentToDelete.LoanId);
+
+            if (paymentToDelete.Id != lastPayment.Id)
+                throw new BadRequestException("Only can delete the last payment");
+
             await _paymentRepository.DeleteAsync(paymentToDelete);
 
             return Unit.Value;

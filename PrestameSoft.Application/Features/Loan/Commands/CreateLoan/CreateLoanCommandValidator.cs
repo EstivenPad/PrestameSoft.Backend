@@ -17,7 +17,7 @@ namespace PrestameSoft.Application.Features.Loan.Commands.CreateLoan
         {
             RuleFor(l => l.Amount)
                 .NotEmpty().WithMessage("{PropertyName} is required")
-                .GreaterThan(0).WithMessage("{PropertyName} must be greater than {ComparisonValue}");
+                .GreaterThan(0).WithMessage("{PropertyName} must be greater than ({ComparisonValue})");
 
             RuleFor(l => l.ClientId)
                 .GreaterThan(0)

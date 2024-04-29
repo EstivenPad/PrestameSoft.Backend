@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseMiddleware<OutOfTimeRequestMiddleware>();
+//app.UseMiddleware<OutOfTimeRequestMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

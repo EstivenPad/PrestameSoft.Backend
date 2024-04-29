@@ -27,7 +27,12 @@ namespace PrestameSoft.Application.Features.Loan.Commands.DeleteLoan
             //Verify that record exist
             if (loanToDelete is null)
                 throw new NotFoundException(nameof(Loan), request.Id);
+
+            bool loanHasAnyPayment = await _loanRepository.LoanHasAnyPayment(request.Id);
             
+            if(loanHasAnyPayment)
+                throw new BadRequestException("Loan can't be deleted, because has an assigned payment");
+
             //Delete in database
             await _loanRepository.DeleteAsync(loanToDelete);
 

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using PrestameSoft.Application.Constants;
 using PrestameSoft.Application.Contracts.Persistence;
 using PrestameSoft.Application.Exceptions;
-using PrestameSoft.Application.Features.Loan.Queries.GetAllLoans;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -39,7 +37,7 @@ namespace PrestameSoft.Application.Features.Loan.Commands.CreateLoan
             var loanToCreate = _mapper.Map<Domain.Loan>(request);
 
             loanToCreate.CapitalRemaining = loanToCreate.Amount;
-            loanToCreate.Status = Status.Activo.ToString();
+            //loanToCreate.Status = Domain.Loan.LoanStatus.Activo;
             
             //Add to database
             await _loanRepository.CreateAsync(loanToCreate);

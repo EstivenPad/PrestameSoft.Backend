@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PrestameSoft.Application.Contracts.Identity;
 using PrestameSoft.Application.Exceptions;
-using PrestameSoft.Application.Models;
+using PrestameSoft.Application.Models.Identity;
 using PrestameSoft.Identity.Models;
 using System;
 using System.Collections.Generic;
@@ -56,36 +56,6 @@ namespace PrestameSoft.Identity.Services
             return response;
         }
 
-        private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
-        {
-            var userClaims = await _userManager.GetClaimsAsync(user);
-            var roles = await _userManager.GetRolesAsync(user);
-
-            var rolesClaims = roles.Select(r => new Claim(ClaimTypes.Role, r)).ToList();
-            var claims = new[]
-            {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim("uid", user.Id)
-                }
-            .Union(userClaims)
-            .Union(rolesClaims);
-
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var signingCredential = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-
-            var jwtSecurityToken = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
-                signingCredentials: signingCredential
-            );
-
-            return jwtSecurityToken;
-        }
-
         public async Task<RegistrationResponse> Register(RegistrationRequest request)
         {
             var user = new ApplicationUser
@@ -110,12 +80,42 @@ namespace PrestameSoft.Identity.Services
                 
                 foreach (var err in result.Errors)
                 {
-                    sb.AppendFormat("- {0}\n", err.Description);
+                    sb.AppendFormat("•{0}\n", err.Description);
                 }
                 
                 throw new BadRequestException("${sb}");
             }
         }
-        
+
+        private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
+        {
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var rolesClaims = roles.Select(r => new Claim(ClaimTypes.Role, r)).ToList();
+
+            var claims = new[]
+            {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim("uid", user.Id)
+                }
+            .Union(userClaims)
+            .Union(rolesClaims);
+
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var signingCredential = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
+                signingCredentials: signingCredential
+            );
+
+            return jwtSecurityToken;
+        }
     }
 }

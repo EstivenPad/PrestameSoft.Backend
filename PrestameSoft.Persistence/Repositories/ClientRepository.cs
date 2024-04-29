@@ -20,5 +20,10 @@ namespace PrestameSoft.Persistence.Repositories
         {
             return await _context.Clients.AnyAsync(c => (c.Identification == identification)) == false;
         }
+
+        public async Task<bool> ClientHasAnyLoan(int clientId)
+        {
+            return await _context.Loans.AnyAsync(c => (c.ClientId == clientId)) == true;
+        }
     }
 }

@@ -5,5 +5,6 @@ namespace PrestameSoft.Application.Contracts.Persistence
     public interface IClientRepository : IGenericRepository<Client>
     {
         Task<bool> IsClientUnique(string name);
+        Task<bool> ClientHasAnyLoan(int clientId);
     }
 }

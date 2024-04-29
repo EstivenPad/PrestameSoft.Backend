@@ -19,7 +19,10 @@ namespace PrestameSoft.Application.Features.Loan.Commands.UpdateLoan
         {
             RuleFor(l => l.Id)
                 .MustAsync(LoanMustNotHavePayments).WithMessage("Loan can't be modified because already has an assigned payment");
-            
+
+            RuleFor(l => l.Id)
+                .MustAsync(LoanMustBeActive).WithMessage("Loan is Inactive");
+
             RuleFor(l => l.Amount)
                 .NotEmpty().WithMessage("{PropertyName} is required")
                 .GreaterThan(0).WithMessage("{PropertyName} must be greater than {ComparisonValue}");
@@ -30,10 +33,15 @@ namespace PrestameSoft.Application.Features.Loan.Commands.UpdateLoan
 
         private async Task<bool> LoanMustNotHavePayments(int loanId, CancellationToken token)
         {
-            //validar que no tenga pagos para permitir editarlo
-            var loan = await _loanRepository.GetLoanWithDetails(loanId);
+            //Check that the loan doesn't have any payments assigned; let it be updated.
+            return await _loanRepository.LoanHasAnyPayment(loanId);
+        }
 
-            return (loan.Payments?.Count() > 0) == false;
+        private async Task<bool> LoanMustBeActive(int loandId, CancellationToken token)
+        {
+            var loan = await _loanRepository.GetByIdAsync(loandId);
+
+            return (loan.Status == Domain.Loan.LoanStatus.Activo);
         }
     }
 }

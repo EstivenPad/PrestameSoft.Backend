@@ -1,4 +1,4 @@
-﻿using PrestameSoft.Application.Models;
+﻿using PrestameSoft.Application.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace PrestameSoft.Application.Features.Client.Commands.DeleteClient
 {
-    public class InactiveClientCommandHandler : IRequestHandler<DeleteClientCommand, Unit>
+    public class DeleteClientCommandHandler : IRequestHandler<DeleteClientCommand, Unit>
     {
         private readonly IClientRepository _clientRepository;
 
-        public InactiveClientCommandHandler(IClientRepository clientRepository)
+        public DeleteClientCommandHandler(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
         }
@@ -26,6 +26,11 @@ namespace PrestameSoft.Application.Features.Client.Commands.DeleteClient
             //Verify that record exist
             if (clientToDelete is null)
                 throw new NotFoundException(nameof(Client), request.Id);
+
+            bool clientHasAnyLoan = await _clientRepository.ClientHasAnyLoan(request.Id);
+
+            if (clientHasAnyLoan)
+                throw new BadRequestException("Client can't be deleted, because has a Loan assigned");
 
             //Delete in database
             await _clientRepository.DeleteAsync(clientToDelete);
